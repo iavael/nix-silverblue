@@ -3,7 +3,7 @@ Description=Create symlink from root subdir to target in /var/rootdirs/
 DefaultDependencies=no
 RequiredMountsFor=/var
 After=local-fs-pre.target
-Befora=local-fs.target shutdown.target
+Before=local-fs.target shutdown.target
 Conflicts=shutdown.target
 ConditionPathIsDirectory=/var/rootdirs/%i
 

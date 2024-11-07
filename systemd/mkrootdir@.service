@@ -2,7 +2,7 @@
 Description=Create root subdir
 DefaultDependencies=no
 After=local-fs-pre.target
-Befora=local-fs.target shutdown.target
+Before=local-fs.target shutdown.target
 Conflicts=shutdown.target
 
 [Service]

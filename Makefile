@@ -41,3 +41,7 @@ install:
 	install -d $(SYSCONFDIR)/profile.d
 	install -p -m 0644 profile/guix.sh $(SYSCONFDIR)/profile.d/guix.sh
 	install -p -m 0644 profile/nix.sh $(SYSCONFDIR)/profile.d/nix.sh
+
+	install -d $(DESTDIR)/lib/sysusers.d
+	install -p -m 0644 sysusers/guix.conf $(DESTDIR)/lib/sysusers.d/guix.conf
+	install -p -m 0644 sysusers/nix.conf $(DESTDIR)/lib/sysusers.d/nix.conf

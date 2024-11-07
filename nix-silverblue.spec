@@ -35,6 +35,9 @@ make install DESTDIR=$RPM_BUILD_ROOT/usr SYSCONFDIR=$RPM_BUILD_ROOT/etc
 %{_sysconfdir}/profile.d/guix.sh
 %{_sysconfdir}/profile.d/nix.sh
 
+%{_sysusersdir}/guix.conf
+%{_sysusersdir}/nix.conf
+
 %{_unitdir}/mkrootlink@.service
 %{_unitdir}/mkrootdir@.service
 %{_unitdir}/gnu-store.mount
