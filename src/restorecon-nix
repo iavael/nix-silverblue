@@ -1,3 +1,3 @@
 #!/bin/sh
 
-exec unshare -m bash -c 'mount -o remount,rw /nix/store; restorecon -Rv /nix'
+exec unshare -m bash -c 'mount -o remount,rw /nix/store; restorecon -Rv /nix/store/.links; exec restorecon -e /nix/store/.links -Rv /nix'
