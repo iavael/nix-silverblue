@@ -4,13 +4,14 @@ Release:	1%{?dist}
 Summary:	Tools for nix/guix integration in Fedora Atomic distrols
 License:	Apache2.0
 URL:		https://github.com/iavel/nix-silverblue
-# Source0:	https://github.com/iavael/#{name}/archive/v#{version}.tar.gz
-Source0:	%{name}-%{version}.tar.gz
+Source0:	https://github.com/iavael/%{name}/archive/v%{version}.tar.gz
+# Source0:	#{name}-#{version}.tar.gz
 
 BuildArch:	noarch
 
 BuildRequires:	make
 Requires:	make cpp
+Requires:	policycoreutils-python-utils policycoreutils
 
 %description
 
@@ -22,7 +23,7 @@ Requires:	make cpp
 %check
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT/usr
+make install DESTDIR=$RPM_BUILD_ROOT/usr SYSCONFDIR=$RPM_BUILD_ROOT/etc
 
 %files
 %doc COPYING
@@ -30,6 +31,9 @@ make install DESTDIR=$RPM_BUILD_ROOT/usr
 %{_sbindir}/restorecon-nix
 %{_sbindir}/mkrootdir
 %{_sbindir}/mkrootlink
+
+%{_sysconfdir}/profile.d/guix.sh
+%{_sysconfdir}/profile.d/nix.sh
 
 %{_unitdir}/mkrootlink@.service
 %{_unitdir}/mkrootdir@.service

@@ -1,5 +1,7 @@
 .PHONY: default install
 
+DESTDIR	:= 	/usr/local
+SYSCONFDIR :=	/etc
 default: ;
 
 install:
@@ -35,3 +37,7 @@ install:
 	install -p -m 0644 systemd/guix-daemon.service $(DESTDIR)/share/nix-silverblue/systemd/guix-daemon.service
 	install -p -m 0644 systemd/nix-daemon.service $(DESTDIR)/share/nix-silverblue/systemd/nix-daemon.service
 	install -p -m 0644 systemd/nix-daemon.socket $(DESTDIR)/share/nix-silverblue/systemd/nix-daemon.socket
+
+	install -d $(SYSCONFDIR)/profile.d
+	install -p -m 0644 profile/guix.sh $(SYSCONFDIR)/profile.d/guix.sh
+	install -p -m 0644 profile/nix.sh $(SYSCONFDIR)/profile.d/nix.sh
