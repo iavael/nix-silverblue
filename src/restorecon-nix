@@ -1,0 +1,3 @@
+#!/bin/sh
+
+exec unshare -m bash -c 'mount -o remount,rw /nix/store; restorecon -Rv /nix'

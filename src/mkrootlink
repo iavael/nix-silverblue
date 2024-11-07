@@ -1,0 +1,22 @@
+#!/bin/sh
+
+set -e
+
+__cleanup () {
+  chattr +i /
+
+  if [ -n "$1" ]; then
+    trap $1
+    kill -${1} $$
+  fi
+}
+
+trap __cleanup EXIT
+trap '__cleanup 1' HUP
+trap '__cleanup 2' INT
+trap '__cleanup 3' QUIT
+trap '__cleanup 13' PIPE
+trap '__cleanup 15' TERM
+
+chattr -i /
+ln -fs /var/rootdirs/$1 /$1

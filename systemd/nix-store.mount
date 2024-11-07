@@ -1,0 +1,19 @@
+[Unit]
+Description=Read-only /nix/store for Nix
+DefaultDependencies=no
+ConditionPathIsDirectory=/nix/store
+Before=nix-daemon.service
+After=nix.mount
+Requires=nix.mount
+
+[Install]
+WantedBy=nix-daemon.service
+
+[Mount]
+What=/nix/store
+Where=/nix/store
+Type=none
+Options=bind,ro
+
+[Install]
+WantedBy=local-fs.target

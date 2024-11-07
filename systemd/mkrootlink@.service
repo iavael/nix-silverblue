@@ -1,0 +1,12 @@
+[Unit]
+Description=Create symlink from root subdir to target in /var/rootdirs/
+DefaultDependencies=no
+RequiredMountsFor=/var
+After=local-fs-pre.target
+Befora=local-fs.target shutdown.target
+Conflicts=shutdown.target
+ConditionPathIsDirectory=/var/rootdirs/%i
+
+[Service]
+Type=oneshot
+ExecStart=/bin/flock / /usr/sbin/mkrootlink %i

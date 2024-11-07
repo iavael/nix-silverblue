@@ -1,0 +1,19 @@
+[Unit]
+Description=Bind mount /var/guix for GNU Guix
+DefaultDependencies=no
+ConditionPathIsDirectory=/gnu/var/guix
+Before=guix-daemon.service
+After=gnu.mount
+Requires=gnu.mount
+
+[Install]
+WantedBy=guix-daemon.service
+
+[Mount]
+What=/gnu/var/guix
+Where=/var/guix
+Type=none
+Options=bind,rw
+
+[Install]
+WantedBy=local-fs.target

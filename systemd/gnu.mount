@@ -1,0 +1,15 @@
+[Unit]
+Before=local-fs.target
+After=blockdev@dev-disk-by\x2duuid-EUUID.target
+Requires=mkrootdir@gnu.service
+After=mkrootdir@gnu.service
+ConditionPathIsDirectory=/sysroot/gnu
+
+[Mount]
+What=/dev/disk/by-uuid/UUID
+Where=/gnu
+Type=btrfs
+Options=defaults,discard,nodev,subvol=/gnu
+
+[Install]
+WantedBy=local-fs.target

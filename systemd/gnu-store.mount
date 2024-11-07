@@ -1,0 +1,19 @@
+[Unit]
+Description=Read-only /gnu/store for GNU Guix
+DefaultDependencies=no
+ConditionPathIsDirectory=/gnu/store
+Before=guix-daemon.service
+After=gnu.mount
+Requires=gnu.mount
+
+[Install]
+WantedBy=guix-daemon.service
+
+[Mount]
+What=/gnu/store
+Where=/gnu/store
+Type=none
+Options=bind,ro
+
+[Install]
+WantedBy=local-fs.target

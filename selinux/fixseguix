@@ -1,0 +1,14 @@
+#!/bin/sh
+
+semodule -X 400 -i guix-daemon.cil
+
+semanage fcontext -a -t etc_t '/gnu/store/[^/]+/etc(/.*)?'
+semanage fcontext -a -t lib_t '/gnu/store/[^/]+/lib(/.*)?'
+semanage fcontext -a -t systemd_unit_file_t '/gnu/store/[^/]+/lib/systemd/system(/.*)?'
+semanage fcontext -a -t man_t '/gnu/store/[^/]+/man(/.*)?'
+semanage fcontext -a -t bin_t '/gnu/store/[^/]+/s?bin(/.*)?'
+semanage fcontext -a -t usr_t '/gnu/store/[^/]+/share(/.*)?'
+semanage fcontext -a -t var_run_t '/var/guix/daemon-socket(/.*)?'
+semanage fcontext -a -t usr_t '/var/guix/profiles(/per-user/[^/]+)?/[^/]+'
+
+semanage fcontext -a -e /var/guix /gnu/var/guix

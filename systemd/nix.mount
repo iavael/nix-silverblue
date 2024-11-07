@@ -1,0 +1,15 @@
+[Unit]
+Before=local-fs.target
+After=blockdev@dev-disk-by\x2duuid-EUUID.target
+Requires=mkrootdir@nix.service
+After=mkrootdir@nix.service
+ConditionPathIsDirectory=/sysroot/nix
+
+[Mount]
+What=/dev/disk/by-uuid/UUID
+Where=/nix
+Type=btrfs
+Options=defaults,discard,nodev,subvol=/nix
+
+[Install]
+WantedBy=local-fs.target
