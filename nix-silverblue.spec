@@ -1,11 +1,11 @@
 Name:		nix-silverblue
-Version:	0.1.1
+Version:	0.1.2
 Release:	1%{?dist}
 Summary:	Tools for nix/guix integration in Fedora Atomic distrols
 License:	Apache2.0
 URL:		https://github.com/iavel/nix-silverblue
-Source0:	https://github.com/iavael/%{name}/archive/v%{version}.tar.gz
-# Source0:	#{name}-#{version}.tar.gz
+# Source0:	https://github.com/iavael/#{name}/archive/v#{version}.tar.gz
+Source0:	%{name}-%{version}.tar.gz
 
 BuildArch:	noarch
 
@@ -56,6 +56,10 @@ make install DESTDIR=$RPM_BUILD_ROOT/usr SYSCONFDIR=$RPM_BUILD_ROOT/etc
 %{_datadir}/nix-silverblue/systemd/nix-daemon.socket
 
 %changelog
+* Thu Nov 07 2024 Iavael 0.1.2-1
+- Added shell profiles and made minor improvements
+  (905853+iavael@users.noreply.github.com)
+
 * Thu Nov 07 2024 Iavael 0.1.1-1
 - Improve restorecon scripts (905853+iavael@users.noreply.github.com)
 
