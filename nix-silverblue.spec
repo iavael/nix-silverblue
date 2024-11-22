@@ -14,6 +14,8 @@ BuildRequires:	systemd-rpm-macros
 Requires:	make cpp
 Requires:	policycoreutils-python-utils policycoreutils
 
+%systemd_requires
+
 %description
 
 %prep
@@ -24,7 +26,14 @@ Requires:	policycoreutils-python-utils policycoreutils
 %check
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT/usr SYSCONFDIR=$RPM_BUILD_ROOT/etc
+make install DESTDIR=%{buildroot}/%{_prefix} SYSCONFDIR=%{buildroot}/%{_sysconfdir}
+
+%pre
+%sysusers_create_package guix sysusers/guix.conf
+%sysusers_create_package nix sysusers//nix.conf
+
+%preun
+%systemd_preun var-guix.mount gnu-store.mount nix-store.mount
 
 %files
 %doc COPYING
@@ -35,6 +44,7 @@ make install DESTDIR=$RPM_BUILD_ROOT/usr SYSCONFDIR=$RPM_BUILD_ROOT/etc
 
 %{_sysconfdir}/profile.d/guix.sh
 %{_sysconfdir}/profile.d/nix.sh
+%{_sysconfdir}/nix/nix.conf
 
 %{_sysusersdir}/guix.conf
 %{_sysusersdir}/nix.conf
