@@ -1,5 +1,5 @@
 Name:		nix-silverblue
-Version:	0.1.3
+Version:	0.1.4
 Release:	1%{?dist}
 Summary:	Tools for nix/guix integration in Fedora Atomic distrols
 License:	Apache2.0
@@ -70,6 +70,12 @@ make install DESTDIR=%{buildroot}/%{_prefix} SYSCONFDIR=%{buildroot}/%{_sysconfd
 %{_datadir}/nix-silverblue/systemd/nix-daemon.socket
 
 %changelog
+* Thu Nov 28 2024 Iavael 0.1.4-1
+- Split makefiles and add nix config (905853+iavael@users.noreply.github.com)
+- Switch tito builder to mock (905853+iavael@users.noreply.github.com)
+- Add buildusers to buildgroups fixes #2
+  (905853+iavael@users.noreply.github.com)
+
 * Fri Nov 08 2024 Iavael 0.1.3-1
 - Added creation of system users and fixed typos
   (905853+iavael@users.noreply.github.com)
