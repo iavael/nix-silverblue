@@ -10,3 +10,4 @@ tito = 0.6.11
 
 [builder]
 mock = default
+mock_args = --additional-package=systemd-rpm-macros
