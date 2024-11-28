@@ -6,6 +6,8 @@ License:	Apache2.0
 URL:		https://github.com/iavel/nix-silverblue
 # Source0:	https://github.com/iavael/#{name}/archive/v#{version}.tar.gz
 Source0:	%{name}-%{version}.tar.gz
+Source1:	sysusers/guix.conf
+Source2:	sysusers/nix.conf
 
 BuildArch:	noarch
 
@@ -14,7 +16,9 @@ BuildRequires:	systemd-rpm-macros
 Requires:	make cpp
 Requires:	policycoreutils-python-utils policycoreutils
 
-%systemd_requires
+Requires(post): systemd
+Requires(preun): systemd
+Requires(postun): systemd
 
 %description
 
@@ -29,8 +33,8 @@ Requires:	policycoreutils-python-utils policycoreutils
 make install DESTDIR=%{buildroot}/%{_prefix} SYSCONFDIR=%{buildroot}/%{_sysconfdir}
 
 %pre
-%sysusers_create_package guix sysusers/guix.conf
-%sysusers_create_package nix sysusers//nix.conf
+%sysusers_create_package guix %SOURCE1
+%sysusers_create_package nix %SOURCE2
 
 %preun
 %systemd_preun var-guix.mount gnu-store.mount nix-store.mount
