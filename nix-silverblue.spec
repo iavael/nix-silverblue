@@ -1,8 +1,8 @@
-Name:		nix-silverblue
-Version:	0.1.7
-Release:	1%{?dist}
-Summary:	Tools for nix/guix integration in Fedora Atomic distros
-License:	Apache2.0
+Name:     nix-silverblue
+Version:  0.1.7
+Release:  1%{?dist}
+Summary:  Tools for nix/guix integration in Fedora Atomic distros
+License:  Apache2.0
 URL:		https://github.com/iavel/nix-silverblue
 # Source0:	https://github.com/iavael/#{name}/archive/v#{version}.tar.gz
 Source0:	%{name}-%{version}.tar.gz
@@ -20,16 +20,16 @@ Requires(postun): systemd
 
 # This ensures that the *-selinux package and all its dependencies are not pulled
 # into containers and other systems that do not use SELinux
-Requires:        (%{name}-selinux if selinux-policy-targeted)
+Requires:           (%{name}-selinux if selinux-policy-targeted)
 
 %description
 
 %package selinux
 Summary: Tools for nix/guix integration in Fedora Atomic distros - selinux policies
-BuildArch:           noarch
-Requires:            selinux-policy-targeted
-Requires(post):      selinux-policy-targeted
-BuildRequires:       selinux-policy-devel
+BuildArch:          noarch
+Requires:           selinux-policy-targeted
+Requires(post):     selinux-policy-targeted
+BuildRequires:      selinux-policy-devel
 
 #selinux_requires
 Requires: selinux-policy
