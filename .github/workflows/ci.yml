@@ -20,12 +20,9 @@ jobs:
       - name: Run ShellCheck
         uses: ludeeus/action-shellcheck@2.0.0
         with:
-          scandir: |
-            ./src
-            ./selinux
-            ./etc
+          scandir: ./src ./selinux ./etc
           severity: warning
-          ignore_paths: '.git .github'
+          ignore_paths: .git .github
 
   rpmlint:
     name: RPM Lint
