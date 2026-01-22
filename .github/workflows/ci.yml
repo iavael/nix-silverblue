@@ -20,7 +20,10 @@ jobs:
       - name: Run ShellCheck
         uses: ludeeus/action-shellcheck@2.0.0
         with:
-          scandir: './src ./selinux ./etc'
+          scandir: |
+            ./src
+            ./selinux
+            ./etc
           severity: warning
           ignore_paths: '.git .github'
 
@@ -42,6 +45,8 @@ jobs:
   tito-build:
     name: Tito Build
     runs-on: ubuntu-latest
+    container:
+      image: fedora:latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -50,19 +55,18 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install -y \
+          dnf install -y \
             tito \
             make \
-            rpm \
+            rpm-build \
             rpmlint \
-            mock \
-            systemd
+            git
 
       - name: Configure git
         run: |
           git config --global user.email "ci@github.com"
           git config --global user.name "CI Bot"
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
 
       - name: Run tito build
         run: tito build --test --rpm
