@@ -5,4 +5,4 @@ SYSCONFDIR :=	/etc
 default: ;
 
 install:
-	install -D -p -m 0644 guix-daemon.cil $(DESTDIR)/selinux/packages/targeted/guix-daemon.cil
+	install -D -p -m 0644 guix-daemon.cil $(DESTDIR)/share/selinux/packages/targeted/guix-daemon.cil

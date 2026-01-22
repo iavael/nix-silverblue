@@ -10,9 +10,6 @@ install:
 	install -D -p -m 0644 gnu-store.mount $(DESTDIR)/lib/systemd/system/gnu-store.mount
 	install -D -p -m 0644 nix-store.mount $(DESTDIR)/lib/systemd/system/nix-store.mount
 	install -D -p -m 0644 var-guix.mount $(DESTDIR)/lib/systemd/system/var-guix.mount
-	ln -s ../gnu-store.mount $(DESTDIR)/lib/systemd/system/guix-daemon.service.wants/gnu-store.mount
-	ln -s ../var-guix.mount $(DESTDIR)/lib/systemd/system/guix-daemon.service.wants/var-guix.mount
-	ln -s ../nix-store.mount $(DESTDIR)/lib/systemd/system/nix-daemon.service.wants/nix-store.mount
 
 	install -D -p -m 0644 Makefile.install $(DESTDIR)/share/nix-silverblue/systemd/Makefile
 	install -D -p -m 0644 gnu.mount $(DESTDIR)/share/nix-silverblue/systemd/gnu.mount

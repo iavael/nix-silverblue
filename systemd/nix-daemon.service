@@ -5,6 +5,7 @@ RequiresMountsFor=/nix/store
 RequiresMountsFor=/nix/var
 RequiresMountsFor=/nix/var/nix/db
 ConditionPathIsReadWrite=/nix/var/nix/daemon-socket
+Wants=nix-store.mount
 
 [Service]
 ExecStart=@/nix/var/nix/profiles/nix/bin/nix-daemon nix-daemon --daemon

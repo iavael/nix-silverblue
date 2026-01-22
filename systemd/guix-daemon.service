@@ -4,6 +4,7 @@
 
 [Unit]
 Description=Build daemon for GNU Guix
+Wants=gnu-store.mount var-guix.mount
 
 [Service]
 ExecStart=/var/guix/profiles/per-user/root/current-guix/bin/guix-daemon \

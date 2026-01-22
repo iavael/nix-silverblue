@@ -30,7 +30,16 @@ BuildArch:           noarch
 Requires:            selinux-policy-%{selinuxtype}
 Requires(post):      selinux-policy-%{selinuxtype}
 BuildRequires:       selinux-policy-devel
-%selinux_requires
+
+#selinux_requires
+Requires: selinux-policy
+BuildRequires: pkgconfig(systemd)
+BuildRequires: selinux-policy
+BuildRequires: selinux-policy-devel
+Requires(post): selinux-policy-base
+Requires(post): libselinux-utils
+Requires(post): policycoreutils
+Requires(post): policycoreutils-python-utils
 
 %description selinux
 
@@ -120,9 +129,6 @@ fi
 %{_unitdir}/mkrootdir@.service
 %{_unitdir}/gnu-store.mount
 %{_unitdir}/nix-store.mount
-%{_unitdir}/guix-daemon.service.wants/gnu-store.mount
-%{_unitdir}/guix-daemon.service.wants/var-guix.mount
-%{_unitdir}/nix-daemon.service.wants/nix-store.mount
 %{_unitdir}/var-guix.mount
 
 %{_datadir}/nix-silverblue/systemd/Makefile
