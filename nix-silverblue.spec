@@ -1,5 +1,5 @@
 Name:		nix-silverblue
-Version:	0.1.5
+Version:	0.1.6
 Release:	1%{?dist}
 Summary:	Tools for nix/guix integration in Fedora Atomic distros
 License:	Apache2.0
@@ -143,6 +143,9 @@ fi
 %ghost %verify(not md5 size mode mtime) %{_sharedstatedir}/selinux/targeted/active/modules/200/guix-daemon
 
 %changelog
+* Thu Jan 22 2026 Iavael 0.1.6-1
+- Fix selinux packaging (905853+iavael@users.noreply.github.com)
+
 * Thu Jan 22 2026 Iavael 0.1.5-1
 - Improve selinux support (905853+iavael@users.noreply.github.com)
 - Fix systemd .wants deps (905853+iavael@users.noreply.github.com)
