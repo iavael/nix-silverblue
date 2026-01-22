@@ -44,9 +44,9 @@ jobs:
       image: fedora:41
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-tags: true
 
       - name: Install dependencies
         run: |
