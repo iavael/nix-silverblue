@@ -21,8 +21,8 @@ trap '__cleanup 15' TERM
 
 chattr -i /
 if [ -d "/var/rootdirs/$1" ]; then
-  # shellcheck disable=SC2166
-  if [ ! -e "/$1" -o \( -h "/$1" -a "$(readlink -e \"/$1\")" = "/var/rootdirs/$1" \) ]; then
+  # shellcheck disable=SC2166,SC2086
+  if [ ! -e "/$1" -o \( -h "/$1" -a "$(readlink -e /$1)" = "/var/rootdirs/$1" \) ]; then
     ln -fs "/var/rootdirs/$1" "/$1"
   fi
 fi
