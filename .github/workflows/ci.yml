@@ -63,13 +63,16 @@ jobs:
             rpmlint \
             git
 
-      - name: Configure git
+      - name: Configure git and verify repository
         run: |
+          echo "Current directory: $(pwd)"
+          echo "Workspace path: /__w/nix-silverblue/nix-silverblue"
+          ls -la /__w/nix-silverblue/nix-silverblue/.git || echo ".git not found"
           git config --global user.email "ci@github.com"
           git config --global user.name "CI Bot"
           git config --global --add safe.directory "/__w/nix-silverblue/nix-silverblue"
           cd /__w/nix-silverblue/nix-silverblue
-          git status
+          git status || echo "git status failed"
 
       - name: Run tito build
         run: |
