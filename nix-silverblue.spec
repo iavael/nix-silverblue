@@ -57,9 +57,46 @@ make install DESTDIR=%{buildroot}/%{_prefix} SYSCONFDIR=%{buildroot}/%{_sysconfd
 %post selinux
 %selinux_modules_install %{_datadir}/selinux/packages/targeted/guix-daemon.cil
 
+%{_sbin}/semanage fcontext -a -t etc_t '/gnu/store/[^/]+/etc(/.*)?'
+%{_sbin}/semanage fcontext -a -t lib_t '/gnu/store/[^/]+/lib(/.*)?'
+%{_sbin}/semanage fcontext -a -t systemd_unit_file_t '/gnu/store/[^/]+/lib/systemd/system(/.*)?'
+%{_sbin}/semanage fcontext -a -t man_t '/gnu/store/[^/]+/man(/.*)?'
+%{_sbin}/semanage fcontext -a -t bin_t '/gnu/store/[^/]+/s?bin(/.*)?'
+%{_sbin}/semanage fcontext -a -t usr_t '/gnu/store/[^/]+/share(/.*)?'
+%{_sbin}/semanage fcontext -a -t var_run_t '/var/guix/daemon-socket(/.*)?'
+%{_sbin}/semanage fcontext -a -t usr_t '/var/guix/profiles(/per-user/[^/]+)?/[^/]+'
+
+%{_sbin}/semanage fcontext -a -t etc_t '/nix/store/[^/]+/etc(/.*)?'
+%{_sbin}/semanage fcontext -a -t lib_t '/nix/store/[^/]+/lib(/.*)?'
+%{_sbin}/semanage fcontext -a -t systemd_unit_file_t '/nix/store/[^/]+/lib/systemd/system(/.*)?'
+%{_sbin}/semanage fcontext -a -t man_t '/nix/store/[^/]+/man(/.*)?'
+%{_sbin}/semanage fcontext -a -t bin_t '/nix/store/[^/]+/s?bin(/.*)?'
+%{_sbin}/semanage fcontext -a -t usr_t '/nix/store/[^/]+/share(/.*)?'
+%{_sbin}/semanage fcontext -a -t var_run_t '/nix/var/nix/daemon-socket(/.*)?'
+%{_sbin}/semanage fcontext -a -t usr_t '/nix/var/nix/profiles(/per-user/[^/]+)?/[^/]+'
+
 %postun selinux
 if [ $1 -eq 0 ]; then
     %selinux_modules_uninstall guix-daemon
+
+    %{_sbin}/semanage fcontext -d -t etc_t '/gnu/store/[^/]+/etc(/.*)?'
+    %{_sbin}/semanage fcontext -d -t lib_t '/gnu/store/[^/]+/lib(/.*)?'
+    %{_sbin}/semanage fcontext -d -t systemd_unit_file_t '/gnu/store/[^/]+/lib/systemd/system(/.*)?'
+    %{_sbin}/semanage fcontext -d -t man_t '/gnu/store/[^/]+/man(/.*)?'
+    %{_sbin}/semanage fcontext -d -t bin_t '/gnu/store/[^/]+/s?bin(/.*)?'
+    %{_sbin}/semanage fcontext -d -t usr_t '/gnu/store/[^/]+/share(/.*)?'
+    %{_sbin}/semanage fcontext -d -t var_run_t '/var/guix/daemon-socket(/.*)?'
+    %{_sbin}/semanage fcontext -d -t usr_t '/var/guix/profiles(/per-user/[^/]+)?/[^/]+'
+
+    %{_sbin}/semanage fcontext -d -t etc_t '/nix/store/[^/]+/etc(/.*)?'
+    %{_sbin}/semanage fcontext -d -t lib_t '/nix/store/[^/]+/lib(/.*)?'
+    %{_sbin}/semanage fcontext -d -t systemd_unit_file_t '/nix/store/[^/]+/lib/systemd/system(/.*)?'
+    %{_sbin}/semanage fcontext -d -t man_t '/nix/store/[^/]+/man(/.*)?'
+    %{_sbin}/semanage fcontext -d -t bin_t '/nix/store/[^/]+/s?bin(/.*)?'
+    %{_sbin}/semanage fcontext -d -t usr_t '/nix/store/[^/]+/share(/.*)?'
+    %{_sbin}/semanage fcontext -d -t var_run_t '/nix/var/nix/daemon-socket(/.*)?'
+    %{_sbin}/semanage fcontext -d -t usr_t '/nix/var/nix/profiles(/per-user/[^/]+)?/[^/]+'
+
 fi
 
 %posttrans selinux
