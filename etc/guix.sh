@@ -15,6 +15,7 @@ GUIX_PROFILE="$HOME/.guix-profile"
 GUIX_LOCPATH="$GUIX_PROFILE/lib/locale"
 export GUIX_LOCPATH
 
+# shellcheck disable=SC1091
 [ -e "$GUIX_PROFILE/etc/profile" ] && . "$GUIX_PROFILE/etc/profile"
 
 # set XDG_DATA_DIRS to include Guix installations

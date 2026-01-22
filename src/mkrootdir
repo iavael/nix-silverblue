@@ -6,6 +6,7 @@ __cleanup () {
   chattr +i /
 
   if [ -n "$1" ]; then
+    # shellcheck disable=SC2064
     trap "$1"
     kill "-${1}" $$
   fi
