@@ -1,3 +1,5 @@
+#!/bin/sh
+
 # _GUIX_PROFILE: `guix pull` profile
 _GUIX_PROFILE="$HOME/.config/guix/current"
 export PATH="$_GUIX_PROFILE/bin${PATH:+:}$PATH"
