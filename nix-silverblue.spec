@@ -20,15 +20,15 @@ Requires(postun): systemd
 
 # This ensures that the *-selinux package and all its dependencies are not pulled
 # into containers and other systems that do not use SELinux
-Requires:        (%{name}-selinux if selinux-policy-%{selinuxtype})
+Requires:        (%{name}-selinux if selinux-policy-targeted)
 
 %description
 
 %package selinux
 Summary: Tools for nix/guix integration in Fedora Atomic distros - selinux policies
 BuildArch:           noarch
-Requires:            selinux-policy-%{selinuxtype}
-Requires(post):      selinux-policy-%{selinuxtype}
+Requires:            selinux-policy-targeted
+Requires(post):      selinux-policy-targeted
 BuildRequires:       selinux-policy-devel
 
 #selinux_requires
@@ -109,7 +109,7 @@ if [ $1 -eq 0 ]; then
 fi
 
 %posttrans selinux
-%selinux_relabel_post -s %{selinuxtype}
+%selinux_relabel_post
 
 %files
 %doc COPYING
