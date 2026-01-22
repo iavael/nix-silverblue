@@ -1,5 +1,5 @@
 Name:		nix-silverblue
-Version:	0.1.4
+Version:	0.1.5
 Release:	1%{?dist}
 Summary:	Tools for nix/guix integration in Fedora Atomic distros
 License:	Apache2.0
@@ -143,6 +143,12 @@ fi
 %ghost %verify(not md5 size mode mtime) %{_sharedstatedir}/selinux/targeted/active/modules/200/guix-daemon
 
 %changelog
+* Thu Jan 22 2026 Iavael 0.1.5-1
+- Improve selinux support (905853+iavael@users.noreply.github.com)
+- Fix systemd .wants deps (905853+iavael@users.noreply.github.com)
+- Add copilot-instructions.md for GitHub Copilot coding agent
+  (198982749+Copilot@users.noreply.github.com)
+
 * Thu Nov 28 2024 Iavael 0.1.4-1
 - Split makefiles and add nix config (905853+iavael@users.noreply.github.com)
 - Switch tito builder to mock (905853+iavael@users.noreply.github.com)
