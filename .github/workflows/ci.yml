@@ -1,0 +1,65 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  shellcheck:
+    name: ShellCheck
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run ShellCheck
+        uses: ludeeus/action-shellcheck@master
+        with:
+          scandir: './src ./selinux ./etc'
+          severity: warning
+          ignore_paths: '.git .github'
+
+  rpmlint:
+    name: RPM Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install rpmlint
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y rpmlint
+
+      - name: Run rpmlint
+        run: rpmlint nix-silverblue.spec
+
+  tito-build:
+    name: Tito Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            tito \
+            make \
+            rpm \
+            rpmlint \
+            mock \
+            systemd
+
+      - name: Configure git
+        run: |
+          git config --global user.email "ci@github.com"
+          git config --global user.name "CI Bot"
+
+      - name: Run tito build
+        run: tito build --test --rpm
