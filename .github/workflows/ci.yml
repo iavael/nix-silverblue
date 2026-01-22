@@ -20,9 +20,7 @@ jobs:
       - name: Run ShellCheck
         uses: ludeeus/action-shellcheck@2.0.0
         with:
-          scandir: ./src ./selinux ./etc
-          severity: warning
-          ignore_paths: .git .github
+          ignore_paths: .github
 
   rpmlint:
     name: RPM Lint
@@ -46,7 +44,7 @@ jobs:
       image: fedora:41
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
