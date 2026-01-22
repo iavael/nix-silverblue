@@ -67,7 +67,11 @@ jobs:
         run: |
           git config --global user.email "ci@github.com"
           git config --global user.name "CI Bot"
-          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          git config --global --add safe.directory "/__w/nix-silverblue/nix-silverblue"
+          cd /__w/nix-silverblue/nix-silverblue
+          git status
 
       - name: Run tito build
-        run: tito build --test --rpm
+        run: |
+          cd /__w/nix-silverblue/nix-silverblue
+          tito build --test --rpm
