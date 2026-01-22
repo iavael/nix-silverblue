@@ -66,15 +66,14 @@ jobs:
       - name: Configure git and verify repository
         run: |
           echo "Current directory: $(pwd)"
-          echo "Workspace path: /__w/nix-silverblue/nix-silverblue"
-          ls -la /__w/nix-silverblue/nix-silverblue/.git || echo ".git not found"
+          echo "Listing current directory:"
+          ls -la
+          echo "Checking for .git:"
+          ls -la .git || echo ".git not found"
           git config --global user.email "ci@github.com"
           git config --global user.name "CI Bot"
-          git config --global --add safe.directory "/__w/nix-silverblue/nix-silverblue"
-          cd /__w/nix-silverblue/nix-silverblue
+          git config --global --add safe.directory "$(pwd)"
           git status || echo "git status failed"
 
       - name: Run tito build
-        run: |
-          cd /__w/nix-silverblue/nix-silverblue
-          tito build --test --rpm
+        run: tito build --test --rpm
