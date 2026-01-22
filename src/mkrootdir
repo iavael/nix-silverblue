@@ -6,8 +6,8 @@ __cleanup () {
   chattr +i /
 
   if [ -n "$1" ]; then
-    trap $1
-    kill -${1} $$
+    trap "$1"
+    kill "-${1}" $$
   fi
 }
 
@@ -19,4 +19,4 @@ trap '__cleanup 13' PIPE
 trap '__cleanup 15' TERM
 
 chattr -i /
-mkdir -p /$1
+mkdir -p "/$1"

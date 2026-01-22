@@ -11,11 +11,11 @@ export INFOPATH="$_GUIX_PROFILE/share/info:$INFOPATH"
 
 # GUIX_PROFILE: User's default profile
 GUIX_PROFILE="$HOME/.guix-profile"
-[ -L $GUIX_PROFILE ] || return
+[ -L "$GUIX_PROFILE" ] || return
 GUIX_LOCPATH="$GUIX_PROFILE/lib/locale"
 export GUIX_LOCPATH
 
-[ -f "$GUIX_PROFILE/etc/profile" ] && . "$GUIX_PROFILE/etc/profile"
+[ -e "$GUIX_PROFILE/etc/profile" ] && . "$GUIX_PROFILE/etc/profile"
 
 # set XDG_DATA_DIRS to include Guix installations
 export XDG_DATA_DIRS="$GUIX_PROFILE/share:${XDG_DATA_DIRS:-/usr/local/share/:/usr/share/}"
