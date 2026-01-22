@@ -1,7 +1,7 @@
 Name:		nix-silverblue
 Version:	0.1.4
 Release:	1%{?dist}
-Summary:	Tools for nix/guix integration in Fedora Atomic distrols
+Summary:	Tools for nix/guix integration in Fedora Atomic distros
 License:	Apache2.0
 URL:		https://github.com/iavel/nix-silverblue
 # Source0:	https://github.com/iavael/#{name}/archive/v#{version}.tar.gz
@@ -13,14 +13,26 @@ BuildArch:	noarch
 
 BuildRequires:	make
 BuildRequires:	systemd-rpm-macros
-Requires:	make cpp
-Requires:	policycoreutils-python-utils policycoreutils
 
 Requires(post): systemd
 Requires(preun): systemd
 Requires(postun): systemd
 
+# This ensures that the *-selinux package and all its dependencies are not pulled
+# into containers and other systems that do not use SELinux
+Requires:        (%{name}-selinux if selinux-policy-%{selinuxtype})
+
 %description
+
+%package selinux
+Summary: Tools for nix/guix integration in Fedora Atomic distros - selinux policies
+BuildArch:           noarch
+Requires:            selinux-policy-%{selinuxtype}
+Requires(post):      selinux-policy-%{selinuxtype}
+BuildRequires:       selinux-policy-devel
+%selinux_requires
+
+%description selinux
 
 %prep
 %setup -q -n %{name}-%{version}
@@ -38,6 +50,20 @@ make install DESTDIR=%{buildroot}/%{_prefix} SYSCONFDIR=%{buildroot}/%{_sysconfd
 
 %preun
 %systemd_preun var-guix.mount gnu-store.mount nix-store.mount
+
+%pre selinux
+%selinux_relabel_pre
+
+%post selinux
+%selinux_modules_install %{_datadir}/selinux/packages/targeted/guix-daemon.cil
+
+%postun selinux
+if [ $1 -eq 0 ]; then
+    %selinux_modules_uninstall guix-daemon
+fi
+
+%posttrans selinux
+%selinux_relabel_post -s %{selinuxtype}
 
 %files
 %doc COPYING
@@ -62,16 +88,16 @@ make install DESTDIR=%{buildroot}/%{_prefix} SYSCONFDIR=%{buildroot}/%{_sysconfd
 %{_unitdir}/nix-daemon.service.wants/nix-store.mount
 %{_unitdir}/var-guix.mount
 
-%{_datadir}/nix-silverblue/selinux/guix-daemon.cil
-%{_datadir}/nix-silverblue/selinux/fixseguix
-%{_datadir}/nix-silverblue/selinux/fixsenix
-
 %{_datadir}/nix-silverblue/systemd/Makefile
 %{_datadir}/nix-silverblue/systemd/gnu.mount
 %{_datadir}/nix-silverblue/systemd/nix.mount
 %{_datadir}/nix-silverblue/systemd/guix-daemon.service
 %{_datadir}/nix-silverblue/systemd/nix-daemon.service
 %{_datadir}/nix-silverblue/systemd/nix-daemon.socket
+
+%files selinux
+%{_datadir}/selinux/packages/targeted/guix-daemon.cil
+%ghost %verify(not md5 size mode mtime) %{_sharedstatedir}/selinux/targeted/active/modules/200/guix-daemon
 
 %changelog
 * Thu Nov 28 2024 Iavael 0.1.4-1
