@@ -83,6 +83,9 @@
          guix_profiles_t
          (lnk_file (read)))
   (allow init_t
+         guix_daemon_conf_t
+         (lnk_file (read)))
+  (allow init_t
          guix_daemon_exec_t
          (file (execute)))
   (allow init_t
@@ -131,16 +134,12 @@
          (tcp_socket (name_connect)))
 
   ;; Permit logging and temp file access
-  ;; localfix
-  (allow guix_daemon_t
-         tmp_t
-         (file (open)))
   (allow guix_daemon_t
          tmp_t
          (lnk_file (create rename setattr unlink)))
   (allow guix_daemon_t
          tmp_t
-         (file (link
+         (file (link open
                 rename create execute execute_no_trans write
                 unlink setattr map relabelto relabelfrom)))
   (allow guix_daemon_t
@@ -181,6 +180,10 @@
                 getattr link unlink)))
 
   ;; TODO: unknown
+  ;; ad-hoc fix for modern fedora atomic with transient-root
+  (allow guix_daemon_t
+         tmpfs_t
+         (dir (mounton)))
   (allow guix_daemon_t
          root_t
          (dir (mounton)))
