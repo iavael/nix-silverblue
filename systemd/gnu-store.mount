@@ -6,9 +6,6 @@ Before=guix-daemon.service
 After=gnu.mount
 Requires=gnu.mount
 
-[Install]
-WantedBy=guix-daemon.service
-
 [Mount]
 What=/gnu/store
 Where=/gnu/store
