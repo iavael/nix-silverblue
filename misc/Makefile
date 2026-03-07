@@ -5,4 +5,4 @@ SYSCONFDIR :=	/etc
 default: ;
 
 install:
-	install -D -p -m 0644 substitutes.nonguix.org.pub $(DESTDIR)/share/substitutes.nonguix.org.pub
+	install -D -p -m 0644 substitutes.nonguix.org.pub $(DESTDIR)/share/nix-silverblue-guix/substitutes.nonguix.org.pub
