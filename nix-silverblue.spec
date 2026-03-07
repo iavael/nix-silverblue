@@ -1,6 +1,6 @@
 Name:		nix-silverblue
-Version:	0.1.9
-Release:	1%{?dist}
+Version:	0.1.10
+Release:	1
 Summary:	Tools for nix/guix integration in Fedora Atomic distros
 License:	Apache2.0
 URL:		https://github.com/iavel/nix-silverblue
@@ -165,6 +165,12 @@ fi
 %ghost %verify(not md5 size mode mtime) %{_sharedstatedir}/selinux/targeted/active/modules/200/guix-daemon
 
 %changelog
+* Sat Mar 07 2026 Iavael 0.1.10-1
+- Fix makefile (905853+iavael@users.noreply.github.com)
+
+* Sat Mar 07 2026 Iavael <905853+iavael@users.noreply.github.com>
+- Fix makefile (905853+iavael@users.noreply.github.com)
+
 * Sat Mar 07 2026 Iavael 0.1.9-1
 - Guix-related changes (905853+iavael@users.noreply.github.com)
 - Remove unnecessary section from mount units
