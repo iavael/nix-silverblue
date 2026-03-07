@@ -29,6 +29,10 @@ Summary: Tools for nix/guix integration in Fedora Atomic distros - guix bits
 BuildArch:      noarch
 Requires:	nix-silverblue = %{version}-%{release}
 
+Requires(post): systemd
+Requires(preun): systemd
+Requires(postun): systemd
+
 %description guix
 
 %package selinux
@@ -133,7 +137,6 @@ fi
 %{_sysconfdir}/profile.d/nix.sh
 %{_sysconfdir}/nix/nix.conf
 
-%{_sysusersdir}/guix.conf
 %{_sysusersdir}/nix.conf
 
 %{_unitdir}/mkrootlink@.service
@@ -150,6 +153,8 @@ fi
 
 %{_sysconfdir}/profile.d/guix.sh
 %{_sysconfdir}/guix/channels.scm
+
+%{_sysusersdir}/guix.conf
 
 %{_unitdir}/gnu-store.mount
 %{_unitdir}/var-guix.mount
