@@ -19,6 +19,6 @@ $(PROFILE_DIR)/nix.sh: nix.sh
 $(NIXCONF_DIR)/nix.conf: nix.conf
 	install -D -p -m 0644 $< $@
 
-$(NIXCONF_DIR)/channels.scm: channels.scm
+$(GUIXCONF_DIR)/channels.scm: channels.scm
 	install -D -p -m 0644 $< $@
 
