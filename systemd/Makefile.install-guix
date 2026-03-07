@@ -1,0 +1,15 @@
+.PHONY: default daemons mounts
+
+default: ;
+
+daemons: /etc/systemd/system/guix-daemon.service
+
+/etc/systemd/system/guix-daemon.service: guix-daemon.service
+	install -p -m 0644 $< $@
+
+mounts: /etc/systemd/system/gnu.mount
+
+UUID := $(shell blkid -o value -s UUID $(shell findmnt -n -o SOURCE /sysroot))
+
+/etc/systemd/system/gnu.mount: gnu.mount
+	cpp -DUUID=$(UUID) -DEUUID=$(shell systemd-escape $(UUID)) -o $@ $<

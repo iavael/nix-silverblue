@@ -24,6 +24,13 @@ Requires:        (%{name}-selinux if selinux-policy-targeted)
 
 %description
 
+%package guix
+Summary: Tools for nix/guix integration in Fedora Atomic distros - guix bits
+BuildArch:      noarch
+Requires:	nix-silverblue = %{version}-%{release}
+
+%description guix
+
 %package selinux
 Summary: Tools for nix/guix integration in Fedora Atomic distros - selinux policies
 BuildArch:           noarch
@@ -54,11 +61,16 @@ Requires(post): policycoreutils-python-utils
 make install DESTDIR=%{buildroot}/%{_prefix} SYSCONFDIR=%{buildroot}/%{_sysconfdir}
 
 %pre
-%sysusers_create_package guix %SOURCE1
 %sysusers_create_package nix %SOURCE2
 
 %preun
-%systemd_preun var-guix.mount gnu-store.mount nix-store.mount
+%systemd_preun nix-store.mount
+
+%pre guix
+%sysusers_create_package guix %SOURCE1
+
+%preun guix
+%systemd_preun var-guix.mount gnu-store.mount
 
 %pre selinux
 %selinux_relabel_pre
@@ -74,6 +86,7 @@ make install DESTDIR=%{buildroot}/%{_prefix} SYSCONFDIR=%{buildroot}/%{_sysconfd
 %{_sbindir}/semanage fcontext -a -t usr_t '/gnu/store/[^/]+/share(/.*)?'
 %{_sbindir}/semanage fcontext -a -t var_run_t '/var/guix/daemon-socket(/.*)?'
 %{_sbindir}/semanage fcontext -a -t usr_t '/var/guix/profiles(/per-user/[^/]+)?/[^/]+'
+%{_sbindir}/semanage fcontext -a -e /var/guix /gnu/var/guix
 
 %{_sbindir}/semanage fcontext -a -t etc_t '/nix/store/[^/]+/etc(/.*)?'
 %{_sbindir}/semanage fcontext -a -t lib_t '/nix/store/[^/]+/lib(/.*)?'
@@ -96,6 +109,7 @@ if [ $1 -eq 0 ]; then
     %{_sbindir}/semanage fcontext -d -t usr_t '/gnu/store/[^/]+/share(/.*)?'
     %{_sbindir}/semanage fcontext -d -t var_run_t '/var/guix/daemon-socket(/.*)?'
     %{_sbindir}/semanage fcontext -d -t usr_t '/var/guix/profiles(/per-user/[^/]+)?/[^/]+'
+    %{_sbindir}/semanage fcontext -d -e /var/guix /gnu/var/guix
 
     %{_sbindir}/semanage fcontext -d -t etc_t '/nix/store/[^/]+/etc(/.*)?'
     %{_sbindir}/semanage fcontext -d -t lib_t '/nix/store/[^/]+/lib(/.*)?'
@@ -105,7 +119,6 @@ if [ $1 -eq 0 ]; then
     %{_sbindir}/semanage fcontext -d -t usr_t '/nix/store/[^/]+/share(/.*)?'
     %{_sbindir}/semanage fcontext -d -t var_run_t '/nix/var/nix/daemon-socket(/.*)?'
     %{_sbindir}/semanage fcontext -d -t usr_t '/nix/var/nix/profiles(/per-user/[^/]+)?/[^/]+'
-
 fi
 
 %posttrans selinux
@@ -113,12 +126,10 @@ fi
 
 %files
 %doc COPYING
-%{_sbindir}/restorecon-guix
 %{_sbindir}/restorecon-nix
 %{_sbindir}/mkrootdir
 %{_sbindir}/mkrootlink
 
-%{_sysconfdir}/profile.d/guix.sh
 %{_sysconfdir}/profile.d/nix.sh
 %{_sysconfdir}/nix/nix.conf
 
@@ -127,25 +138,37 @@ fi
 
 %{_unitdir}/mkrootlink@.service
 %{_unitdir}/mkrootdir@.service
-%{_unitdir}/gnu-store.mount
 %{_unitdir}/nix-store.mount
-%{_unitdir}/var-guix.mount
 
 %{_datadir}/nix-silverblue/systemd/Makefile
-%{_datadir}/nix-silverblue/systemd/gnu.mount
 %{_datadir}/nix-silverblue/systemd/nix.mount
-%{_datadir}/nix-silverblue/systemd/guix-daemon.service
 %{_datadir}/nix-silverblue/systemd/nix-daemon.service
 %{_datadir}/nix-silverblue/systemd/nix-daemon.socket
 
+%files guix
+%{_sbindir}/restorecon-guix
+
+%{_sysconfdir}/profile.d/guix.sh
+%{_sysconfdir}/guix/channels.scm
+
+%{_unitdir}/gnu-store.mount
+%{_unitdir}/var-guix.mount
+
+%{_datadir}/nix-silverblue-guix/systemd/Makefile
+%{_datadir}/nix-silverblue-guix/systemd/gnu.mount
+%{_datadir}/nix-silverblue-guix/systemd/guix-daemon.service
+
+%{_datadir}/nix-silverblue-guix/substitutes.nonguix.org.pub
+
 %files selinux
-%{_datadir}/selinux/packages/targeted/guix-daemon.cil
+%{_datadir}/selinux/packages/guix-daemon.cil
 %ghost %verify(not md5 size mode mtime) %{_sharedstatedir}/selinux/targeted/active/modules/200/guix-daemon
 
 %changelog
 * Thu Feb 05 2026 Iavael 0.1.8-1
 - Update selinux policies (905853+iavael@users.noreply.github.com)
 - Add guix-daemon user (905853+iavael@users.noreply.github.com)
+
 * Thu Jan 22 2026 Iavael 0.1.7-1
 - Fix packaging
 

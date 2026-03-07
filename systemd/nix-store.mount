@@ -6,9 +6,6 @@ Before=nix-daemon.service
 After=nix.mount
 Requires=nix.mount
 
-[Install]
-WantedBy=nix-daemon.service
-
 [Mount]
 What=/nix/store
 Where=/nix/store

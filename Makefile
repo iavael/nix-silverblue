@@ -10,3 +10,4 @@ install:
 	$(MAKE) -C selinux install
 	$(MAKE) -C etc install
 	$(MAKE) -C sysusers install
+	$(MAKE) -C misc install
