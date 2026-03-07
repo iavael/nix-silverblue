@@ -76,7 +76,7 @@ make install DESTDIR=%{buildroot}/%{_prefix} SYSCONFDIR=%{buildroot}/%{_sysconfd
 %selinux_relabel_pre
 
 %post selinux
-%selinux_modules_install %{_datadir}/selinux/packages/targeted/guix-daemon.cil
+%selinux_modules_install %{_datadir}/selinux/packages/guix-daemon.cil
 
 %{_sbindir}/semanage fcontext -a -t etc_t '/gnu/store/[^/]+/etc(/.*)?'
 %{_sbindir}/semanage fcontext -a -t lib_t '/gnu/store/[^/]+/lib(/.*)?'
