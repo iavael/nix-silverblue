@@ -16,7 +16,7 @@ GUIX_LOCPATH="$GUIX_PROFILE/lib/locale"
 export GUIX_LOCPATH
 
 # shellcheck disable=SC1091
-[ -e "$GUIX_PROFILE/etc/profile" ] && . "$GUIX_PROFILE/etc/profile"
+[ -f "$GUIX_PROFILE/etc/profile" ] && . "$GUIX_PROFILE/etc/profile"
 
 # set XDG_DATA_DIRS to include Guix installations
 export XDG_DATA_DIRS="$GUIX_PROFILE/share:${XDG_DATA_DIRS:-/usr/local/share/:/usr/share/}"
