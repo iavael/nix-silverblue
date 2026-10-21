@@ -36,3 +36,25 @@ jobs:
 
       - name: Run rpmlint
         run: rpmlint nix-silverblue.spec
+
+  tito-build:
+    name: Tito Build
+    runs-on: ubuntu-latest
+    container: fedora:41
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install build dependencies
+        run: |
+          dnf update -y
+          dnf install -y \
+            git make mock rpm-build shadow-utils systemd-rpm-macros tito
+
+      - name: Build RPM with Tito
+        run: |
+          useradd --create-home --groups mock builder
+          chown -R builder:builder "$GITHUB_WORKSPACE"
+          runuser -u builder -- git config --global --add \
+            safe.directory "$GITHUB_WORKSPACE"
+          runuser -u builder -- tito build --test --rpm
